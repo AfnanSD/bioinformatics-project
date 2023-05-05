@@ -9,8 +9,8 @@ import java.util.Scanner;
  */
 public class ahoCorasickAlgorithim {
 
-    static int maxs = 500;// 1000 which is arbitrary is the max number of states => sum of the length of all keywords
-    static int characters = 26;
+    static int maxs = 100;// 1000 which is arbitrary is the max number of states => sum of the length of all keywords
+    static int characters = 26;//should be four? because DNA?
     
     //definitions of the arrays
     static int [] output = new int[maxs];//sotre index of the end of the keywords
@@ -20,7 +20,7 @@ public class ahoCorasickAlgorithim {
     //to get input from the user
     static Scanner input = new Scanner(System.in);
     //1  static String  pattern;
-    static String pattern [] =  {"their","there","answer","any","bye"} ;
+    static String pattern [] =  {"is","any","their","there","answer","bye"} ;
     static String sequence = "isthereanyanswerokgoodbye";
 
 
@@ -42,17 +42,21 @@ public class ahoCorasickAlgorithim {
         Arrays.fill(output, 0); //set all elements of output array to 0
         Arrays.fill(fail,-1);//set all elements of fail array to -1  
         //set all elements of goto matrix to -1
-        for (int i = 0; i < goTo.length; i++) {
+        for (int i = 0; i < maxs; i++) {
             Arrays.fill(goTo[i], -1);
         }
         int state = 1;//there is only one state at first?
 
         //move over each word in pattern list
-        for (int i = 0; i < p.length; i++) {
+        //++ first
+        for (int i = 0; i < p.length; ++i) {
             String word = p[i];
             int present = 0;
-            for (int j = 0; j < word.length(); j++) {
-                int ch = word.charAt(j) - 'a';//?
+
+            //iterate through each word
+            //was j++?? why? <<< error now changed
+            for (int j = 0; j < word.length(); ++j) {
+                int ch = word.charAt(j) - 'a';//? to make it a number?
                 if (goTo[present][ch] == -1) {
                     goTo[present][ch] = state;
                     state++;
@@ -63,7 +67,7 @@ public class ahoCorasickAlgorithim {
             //output[present] := output[present] OR (shift left 1 for i times)
             output[present] |=  (1<<i) ;
 
-            
+        }  
         //why?? shift left??
 
         //extra ??
@@ -73,13 +77,14 @@ public class ahoCorasickAlgorithim {
         for(int ch = 0; ch < characters; ++ch)
         if (goTo[0][ch] == -1)
             goTo[0][ch] = 0;
-        }
+        
 
         Queue<Integer> q = new LinkedList<>();
         
-        for (int ch = 0; ch < characters; ch++) {
+        //++ first
+        for (int ch = 0; ch < characters; ++ch) {
             if (goTo[0][ch]!=0) {
-                System.out.println(goTo[0][ch]+"--0000");
+                //System.out.println(goTo[0][ch]+"--0000");
                 fail[goTo[0][ch]] = 0;
                 q.add(goTo[0][ch]);
             }
@@ -87,7 +92,8 @@ public class ahoCorasickAlgorithim {
 
         while (!q.isEmpty()) {
             int newState = q.poll();
-            for (int ch = characters; ch < characters; ch++) {
+            //++ first
+            for (int ch = characters; ch < characters; ++ch) {
                 if (goTo[newState][ch]!=-1) {
                     int failure = fail[newState];
                     while (goTo[failure][ch]==-1) {
@@ -106,9 +112,9 @@ public class ahoCorasickAlgorithim {
     static int getNextState(int presentState,char nextChar){
         int answer = presentState;
         int ch = nextChar - 'a';//?
-
+        System.out.println(answer+" a before- ch "+ch);
         while (goTo[answer][ch]==-1) {
-            System.out.println(answer+" a - ch "+ch);
+           // System.out.println(answer+" a - ch "+ch);
             answer = fail[answer];
         }
 
@@ -119,18 +125,18 @@ public class ahoCorasickAlgorithim {
         buildTree(pattern,size);//size?
         int presentState = 0;
 
-        for (int index = 0; index < sequence.length(); index++) {
+        for (int index = 0; index < sequence.length(); ++index) {
             presentState = getNextState(presentState, sequence.charAt(index));
             if (output[presentState]==0) {
                 continue;
             }
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; ++i) {
                 if ((output[presentState] & (1<<i))>0) {
                     System.out.println("word: exists ");
                     System.out.println("comparsions: ");//TODO count it
                 }
                 else{
-                    System.err.println("nooo");
+                    //System.err.println("nooo");
                 }
             }
         }
