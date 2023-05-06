@@ -16,6 +16,54 @@
   <Frame>
     <Bounds>
       <AutoSize>true</AutoSize>
+      <X>70</X>
+      <Y>210</Y>
+      <W>86</W>
+      <H>46</H>
+    </Bounds>
+    <LabelLoc>
+      <WO>false</WO>
+    </LabelLoc>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>`local int` ch</Expression>
+      <ViewerClass>jgrasp_viewers._X_ElementView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Frame>
+    <Bounds>
+      <AutoSize>true</AutoSize>
+      <X>80</X>
+      <Y>150</Y>
+      <W>86</W>
+      <H>46</H>
+    </Bounds>
+    <LabelLoc>
+      <WO>false</WO>
+    </LabelLoc>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>`local int` present</Expression>
+      <ViewerClass>jgrasp_viewers._X_ElementView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Frame>
+    <Bounds>
+      <AutoSize>true</AutoSize>
+      <X>110</X>
+      <Y>30</Y>
+      <W>190</W>
+      <H>44</H>
+    </Bounds>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>ahoCorasickAlgorithim.sequence</Expression>
+      <ViewerClass>jgrasp_viewers.java__lang__String_FormattedView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Frame>
+    <Bounds>
+      <AutoSize>true</AutoSize>
       <X>150</X>
       <Y>70</Y>
       <W>296</W>
@@ -33,15 +81,18 @@
   <Frame>
     <Bounds>
       <AutoSize>true</AutoSize>
-      <X>1000</X>
-      <Y>180</Y>
-      <W>328</W>
-      <H>472</H>
+      <X>280</X>
+      <Y>510</Y>
+      <W>678</W>
+      <H>80</H>
     </Bounds>
     <Viewer>
       <ScopeID>0</ScopeID>
-      <Expression>ahoCorasickAlgorithim.goTo</Expression>
-      <ViewerClass>jgrasp_viewers._X_A_A_ToStringView</ViewerClass>
+      <Expression>ahoCorasickAlgorithim.output</Expression>
+      <ViewerClass>jgrasp_viewers._X_A_PresentationView</ViewerClass>
+      <ViewerData>
+        <Round>false</Round>
+      </ViewerData>
     </Viewer>
   </Frame>
   <Frame>
@@ -81,32 +132,18 @@
   <Frame>
     <Bounds>
       <AutoSize>true</AutoSize>
-      <X>110</X>
-      <Y>30</Y>
-      <W>190</W>
-      <H>44</H>
+      <X>40</X>
+      <Y>130</Y>
+      <W>296</W>
+      <H>114</H>
     </Bounds>
     <Viewer>
       <ScopeID>0</ScopeID>
-      <Expression>ahoCorasickAlgorithim.sequence</Expression>
-      <ViewerClass>jgrasp_viewers.java__lang__String_FormattedView</ViewerClass>
-    </Viewer>
-  </Frame>
-  <Frame>
-    <Bounds>
-      <AutoSize>true</AutoSize>
-      <X>70</X>
-      <Y>210</Y>
-      <W>86</W>
-      <H>46</H>
-    </Bounds>
-    <LabelLoc>
-      <WO>false</WO>
-    </LabelLoc>
-    <Viewer>
-      <ScopeID>0</ScopeID>
-      <Expression>`local int` ch</Expression>
-      <ViewerClass>jgrasp_viewers._X_ElementView</ViewerClass>
+      <Expression>`local java.lang.String[]` p</Expression>
+      <ViewerClass>jgrasp_viewers._X_A_PresentationView</ViewerClass>
+      <ViewerData>
+        <Round>false</Round>
+      </ViewerData>
     </Viewer>
   </Frame>
   <Frame>
@@ -129,60 +166,23 @@
   <Frame>
     <Bounds>
       <AutoSize>true</AutoSize>
-      <X>280</X>
-      <Y>510</Y>
-      <W>678</W>
-      <H>80</H>
+      <X>1022</X>
+      <Y>206</Y>
+      <W>328</W>
+      <H>472</H>
     </Bounds>
     <Viewer>
       <ScopeID>0</ScopeID>
-      <Expression>ahoCorasickAlgorithim.output</Expression>
-      <ViewerClass>jgrasp_viewers._X_A_PresentationView</ViewerClass>
-      <ViewerData>
-        <Round>false</Round>
-      </ViewerData>
-    </Viewer>
-  </Frame>
-  <Frame>
-    <Bounds>
-      <AutoSize>true</AutoSize>
-      <X>40</X>
-      <Y>130</Y>
-      <W>296</W>
-      <H>114</H>
-    </Bounds>
-    <Viewer>
-      <ScopeID>0</ScopeID>
-      <Expression>`local java.lang.String[]` p</Expression>
-      <ViewerClass>jgrasp_viewers._X_A_PresentationView</ViewerClass>
-      <ViewerData>
-        <Round>false</Round>
-      </ViewerData>
-    </Viewer>
-  </Frame>
-  <Frame>
-    <Bounds>
-      <AutoSize>true</AutoSize>
-      <X>80</X>
-      <Y>150</Y>
-      <W>86</W>
-      <H>46</H>
-    </Bounds>
-    <LabelLoc>
-      <WO>false</WO>
-    </LabelLoc>
-    <Viewer>
-      <ScopeID>0</ScopeID>
-      <Expression>`local int` present</Expression>
-      <ViewerClass>jgrasp_viewers._X_ElementView</ViewerClass>
+      <Expression>ahoCorasickAlgorithim.goTo</Expression>
+      <ViewerClass>jgrasp_viewers._X_A_A_ToStringView</ViewerClass>
     </Viewer>
   </Frame>
   <Size>
-    <W>407</W>
-    <H>456</H>
+    <W>695</W>
+    <H>869</H>
   </Size>
   <ESize>
-    <W>407</W>
-    <H>456</H>
+    <W>695</W>
+    <H>869</H>
   </ESize>
 </Canvas>
