@@ -13,12 +13,14 @@ public class ahoCorasickAlgorithim {
     static int characters = 26;//should be four? because DNA?
     
     //definitions of the arrays
-    static int [] output = new int[maxs];//sotre index of the end of the keywords
-    static int [] fail = new int [maxs]; //
-    static int [][] goTo = new int [maxs][characters]; //
+    static int [] output = new int[maxs];//sotre index of the end of the keywords,  for every state ‘s’ of the automaton, it finds all words which are ending at the state ‘s’
+    static int [] fail = new int [maxs]; //find the backward transition to get a proper suffix of some keywords
+    static int [][] goTo = new int [maxs][characters]; //to make the tree using all keywords (also called Trie)
 
-    //to get input from the user
-    static Scanner input = new Scanner(System.in);
+    static int numberOfComparision = 0;//initilize with 0
+
+
+
     //1  static String  pattern;
     static String pattern [] =  {"is","any","their","there","answer","bye"} ;
     static String sequence = "isthereanyanswerokgoodbye";
@@ -26,6 +28,8 @@ public class ahoCorasickAlgorithim {
 
     //take it as input?
     public static void getInput(){
+        //to get input from the user
+        //static Scanner input = new Scanner(System.in);
         //System.out.println("write down pattern");
         //TODO fix it to be more,,, or is it hust one word?
         //1 pattern =  input.nextLine();//just one at the moment
@@ -45,18 +49,19 @@ public class ahoCorasickAlgorithim {
         for (int i = 0; i < maxs; i++) {
             Arrays.fill(goTo[i], -1);
         }
+
         int state = 1;//there is only one state at first?
 
         //move over each word in pattern list
-        //++ first
         for (int i = 0; i < p.length; ++i) {
             String word = p[i];
             int present = 0;
 
             //iterate through each word
-            //was j++?? why? <<< error now changed
             for (int j = 0; j < word.length(); ++j) {
-                int ch = word.charAt(j) - 'a';//? to make it a number?
+                int ch = word.charAt(j) - 'a';//to make it a number
+                
+                //create a new state if a node for ch doesn't exist ?
                 if (goTo[present][ch] == -1) {
                     goTo[present][ch] = state;
                     state++;
@@ -64,13 +69,13 @@ public class ahoCorasickAlgorithim {
                 present = goTo[present][ch];
             }
 
-            //output[present] := output[present] OR (shift left 1 for i times)
+            //add current word to output array?
             output[present] |=  (1<<i) ;
 
-        }  
-        //why?? shift left??
+        } 
 
-        //extra ??
+        //extra ?? add to algorithim !!
+
         // For all characters which don't have
         // an edge from root (or state 0) in Trie,
         // add a goto edge to state 0 itself
@@ -81,23 +86,23 @@ public class ahoCorasickAlgorithim {
 
         Queue<Integer> q = new LinkedList<>();
         
-        //++ first
+
         for (int ch = 0; ch < characters; ++ch) {
             if (goTo[0][ch]!=0) {
-                //System.out.println(goTo[0][ch]+"--0000");
                 fail[goTo[0][ch]] = 0;
                 q.add(goTo[0][ch]);
             }
         }
 
         while (!q.isEmpty()) {
+            
             int newState = q.poll();
-            //++ first
+
             for (int ch = 0; ch < characters; ++ch) {
                 if (goTo[newState][ch]!=-1) {
                     int failure = fail[newState];
                     while (goTo[failure][ch]==-1) {
-                        failure = fail[failure];//goTo[failure][ch]
+                        failure = fail[failure];//goTo[failure][ch]??
                     }
                     failure = goTo[failure][ch];//?
                     fail[goTo[newState][ch]]= failure;
@@ -111,11 +116,13 @@ public class ahoCorasickAlgorithim {
 
     static int getNextState(int presentState,char nextChar){
         int answer = presentState;
-        int ch = nextChar - 'a';//?
+        int ch = nextChar - 'a';
+
+        //if not defined in goTo array, use fail array
         while (goTo[answer][ch]==-1) {
             answer = fail[answer];
         }
-
+       // numberOfComparision++;
         return goTo[answer][ch];
     }
 
@@ -124,25 +131,30 @@ public class ahoCorasickAlgorithim {
         int presentState = 0;
 
         for (int index = 0; index < sequence.length(); ++index) {
+            
             presentState = getNextState(presentState, sequence.charAt(index));
             if (output[presentState]==0) {
+                //numberOfComparision++;
                 continue;
             }
             for (int i = 0; i < size; ++i) {
                 if ((output[presentState] & (1<<i))>0) {
-                    System.out.println("word: exists ");
-                    System.out.println("comparsions: ");//TODO count it
+                    System.out.print("word \'"+pattern[i]+"\' exists ");
+                    System.out.print("it appears from " +(index - pattern[i].length() + 1) +" to " + index + "\n");
+                    numberOfComparision = index + 1; //since the work is all done in building the trie>> comparison would be linear?
+                    System.out.println("the number of comparsions it took to find it: "+numberOfComparision);//TODO count it
+                    System.out.println();
                 }
                 else{
-                    //System.err.println("nooo");
+                    //System.err.println("does not exiet");
                 }
+               
             }
         }
     }
     
     public static void main(String[] args) {
         getInput();
-        // buildTree(pattern);//or just 1?
         patternSearch(pattern, pattern.length, sequence);
     }
 }
