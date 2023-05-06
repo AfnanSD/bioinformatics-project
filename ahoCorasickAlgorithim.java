@@ -74,7 +74,7 @@ public class ahoCorasickAlgorithim {
         // For all characters which don't have
         // an edge from root (or state 0) in Trie,
         // add a goto edge to state 0 itself
-        for(int ch = 0; ch < characters; ++ch)
+        for(int ch = 0; ch < characters; ch++)
         if (goTo[0][ch] == -1)
             goTo[0][ch] = 0;
         
@@ -93,7 +93,7 @@ public class ahoCorasickAlgorithim {
         while (!q.isEmpty()) {
             int newState = q.poll();
             //++ first
-            for (int ch = characters; ch < characters; ++ch) {
+            for (int ch = 0; ch < characters; ++ch) {
                 if (goTo[newState][ch]!=-1) {
                     int failure = fail[newState];
                     while (goTo[failure][ch]==-1) {
@@ -112,9 +112,7 @@ public class ahoCorasickAlgorithim {
     static int getNextState(int presentState,char nextChar){
         int answer = presentState;
         int ch = nextChar - 'a';//?
-        System.out.println(answer+" a before- ch "+ch);
         while (goTo[answer][ch]==-1) {
-           // System.out.println(answer+" a - ch "+ch);
             answer = fail[answer];
         }
 
