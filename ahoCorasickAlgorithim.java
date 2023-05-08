@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ahoCorasickAlgorithim {
 
     static int maxs = 100;// 1000 which is arbitrary is the max number of states => sum of the length of all keywords
-    static int characters = 26;//should be four? because DNA?
+    static int characters = 26;//should be four? because DNA? or 20 because of protien
     
     //definitions of the arrays
     static int [] output = new int[maxs];//sotre index of the end of the keywords,  for every state ‘s’ of the automaton, it finds all words which are ending at the state ‘s’
@@ -22,8 +22,10 @@ public class ahoCorasickAlgorithim {
 
 
     //1  static String  pattern;
-    static String pattern [] =  {"is","any","their","there","answer","bye"} ;
-    static String sequence = "isthereanyanswerokgoodbye";
+    //,"any","their","there","answer","bye"
+    static String pattern [] =  {"he", "she", "hers", "his","afnan","kk"} ;//TODO fix not found if more than one word in pattern(need more code)
+    static boolean [] foundarr = new boolean[pattern.length];
+    static String sequence = "ahishers";
 
 
     //take it as input?
@@ -129,31 +131,47 @@ public class ahoCorasickAlgorithim {
     static void patternSearch(String[] pattern,int size,String sequence){
         buildTree(pattern,size);//size?
         int presentState = 0;
+        boolean found = false;
 
         for (int index = 0; index < sequence.length(); ++index) {
             
             presentState = getNextState(presentState, sequence.charAt(index));
+
+            //match not found
             if (output[presentState]==0) {
                 //numberOfComparision++;
                 continue;
             }
+
+            //match found
             for (int i = 0; i < size; ++i) {
                 if ((output[presentState] & (1<<i))>0) {
-                    System.out.print("word \'"+pattern[i]+"\' exists ");
-                    System.out.print("it appears from " +(index - pattern[i].length() + 1) +" to " + index + "\n");
-                    numberOfComparision = index + 1; //since the work is all done in building the trie>> comparison would be linear?
-                    System.out.println("the number of comparsions it took to find it: "+numberOfComparision);//TODO count it
-                    System.out.println();
+                    found = true;
+                     System.out.print("The pattern exist ,");
+                     System.out.println(pattern[i]);
+                     foundarr[i] = true;
+                     //System.out.print("it appears from " +(index - pattern[i].length() + 1) +" to " + index + "\n");
+                     numberOfComparision = index + 1; //since the work is all done in building the trie>> comparison would be linear?
+                     System.out.println("the number of comparsions it took to find it: "+numberOfComparision);//TODO count it
+                     System.out.println();
                 }
-                else{
-                    //System.err.println("does not exiet");
-                }
-               
+            }
+        }
+
+        //print not found
+        for (int j = 0; j < foundarr.length; j++) {
+            if (!foundarr[j]) {
+                System.out.print("The pattern does not exist ");
+                System.out.println(pattern[j]);
+                System.out.println("the number of comparsions the algorithim made: "+sequence.length());
+                System.out.println();
             }
         }
     }
     
     public static void main(String[] args) {
+        Arrays.fill(foundarr,false);//TODO change its place
+
         getInput();
         patternSearch(pattern, pattern.length, sequence);
     }
