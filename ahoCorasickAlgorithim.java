@@ -2,51 +2,62 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-//TODO pattern, number-of-comarisions, andshift-amount
 
 /*
  * afnan
  */
 public class ahoCorasickAlgorithim {
 
-    static int maxs = 100;// 1000 which is arbitrary is the max number of states => sum of the length of all keywords
-    static int characters = 26;//should be four? because DNA? or 20 because of protien
+    static Scanner input = new Scanner(System.in);
+
+    //TODO make it dynamic?
+    static int maxs = 100;//max number of states
+    static int characters = 26;//Since we are using asci code we decided to keep character to 26 which is the number of letter is alphabet
     
     //definitions of the arrays
     static int [] output = new int[maxs];//sotre index of the end of the keywords,  for every state ‘s’ of the automaton, it finds all words which are ending at the state ‘s’
     static int [] fail = new int [maxs]; //find the backward transition to get a proper suffix of some keywords
+    //when fail to match to not go back to root, it will point to the end of the pattern with the long suffix*(it will enhance the search to O(m=text length) )
     static int [][] goTo = new int [maxs][characters]; //to make the tree using all keywords (also called Trie)
 
     static int numberOfComparision = 0;//initilize with 0
 
 
+    static Object pattern [] ;
+    static boolean [] foundarr;
+    static String sequence ;
 
-    //1  static String  pattern;
-    //,"any","their","there","answer","bye"
-    static String pattern [] =  {"he", "she", "hers", "his","afnan","kk"} ;//TODO fix not found if more than one word in pattern(need more code)
-    static boolean [] foundarr = new boolean[pattern.length];
-    static String sequence = "ahishers";
-
-
-    //take it as input?
+    //to get input from the user
     public static void getInput(){
-        //to get input from the user
-        //static Scanner input = new Scanner(System.in);
-        //System.out.println("write down pattern");
-        //TODO fix it to be more,,, or is it hust one word?
-        //1 pattern =  input.nextLine();//just one at the moment
-        
-        // System.out.println("write down sequence");
-        // sequence = input.nextLine();
+
+        System.out.print("Enter the DNA sequence: ");
+        sequence = input.nextLine();
+
+        LinkedList<String> tmp = new LinkedList<String>();
+        System.out.print("Enter the patterns you are searching for: ");
+        while (true) {
+            String userInput = input.nextLine();
+            if (userInput.charAt(0)=='0') {
+                break;
+            }
+            tmp.add(userInput);
+            System.out.print("Enter the next pattern you are searching for (to stop enter 0): ");
+        }
+
+        System.out.println();
+        pattern =  tmp.toArray();
+
+        //this array to keep track of patterns found and not found
+        foundarr = new boolean[pattern.length];
+        Arrays.fill(foundarr,false);
+
     }
 
-
-    //size? or defult just one word
-    //TODO user size
-    public static int buildTree(String[] p,int size){
+    public static int buildTree(Object[] p){
 
         Arrays.fill(output, 0); //set all elements of output array to 0
         Arrays.fill(fail,-1);//set all elements of fail array to -1  
+
         //set all elements of goto matrix to -1
         for (int i = 0; i < maxs; i++) {
             Arrays.fill(goTo[i], -1);
@@ -56,7 +67,7 @@ public class ahoCorasickAlgorithim {
 
         //move over each word in pattern list
         for (int i = 0; i < p.length; ++i) {
-            String word = p[i];
+            String word = (String) p[i];
             int present = 0;
 
             //iterate through each word
@@ -124,41 +135,40 @@ public class ahoCorasickAlgorithim {
         while (goTo[answer][ch]==-1) {
             answer = fail[answer];
         }
-       // numberOfComparision++;
+
         return goTo[answer][ch];
     }
 
-    static void patternSearch(String[] pattern,int size,String sequence){
-        buildTree(pattern,size);//size?
+    static void patternSearch(Object[] pattern,int size,String sequence){
+        buildTree(pattern);
         int presentState = 0;
-        boolean found = false;
 
         for (int index = 0; index < sequence.length(); ++index) {
-            
+            numberOfComparision++;
+
             presentState = getNextState(presentState, sequence.charAt(index));
 
             //match not found
             if (output[presentState]==0) {
-                //numberOfComparision++;
                 continue;
             }
 
-            //match found
+            //match found 
             for (int i = 0; i < size; ++i) {
-                if ((output[presentState] & (1<<i))>0) {
-                    found = true;
-                     System.out.print("The pattern exist ,");
-                     System.out.println(pattern[i]);
-                     foundarr[i] = true;
-                     //System.out.print("it appears from " +(index - pattern[i].length() + 1) +" to " + index + "\n");
-                     numberOfComparision = index + 1; //since the work is all done in building the trie>> comparison would be linear?
-                     System.out.println("the number of comparsions it took to find it: "+numberOfComparision);//TODO count it
-                     System.out.println();
+
+                //print pattern when it is first found and ???
+                if ((output[presentState] & (1<<i))>0 && !foundarr[i]) {
+
+                    System.out.print("The pattern exist ,");
+                    System.out.println(pattern[i]);
+                    foundarr[i] = true;
+                    System.out.println("the number of comparsions it took to find it: "+numberOfComparision);
+                    System.out.println();
                 }
             }
         }
 
-        //print not found
+        //print the patterns which were not found
         for (int j = 0; j < foundarr.length; j++) {
             if (!foundarr[j]) {
                 System.out.print("The pattern does not exist ");
@@ -170,8 +180,6 @@ public class ahoCorasickAlgorithim {
     }
     
     public static void main(String[] args) {
-        Arrays.fill(foundarr,false);//TODO change its place
-
         getInput();
         patternSearch(pattern, pattern.length, sequence);
     }
