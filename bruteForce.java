@@ -33,6 +33,8 @@ public class bruteForce {
         int n = dna.length();
         int m = patter.length();
 
+        int comparisions = 0;
+
         Boolean found = false;
         for(int i = 0; i < n - m; i++){
             String substring = dna.substring(i, i+m);
@@ -41,11 +43,14 @@ public class bruteForce {
                 found = true;
                 System.out.println("Pattern found at " + i);
             }
+            comparisions++;
         }
  
 
         if(!found)
             System.out.println("No occurrence found");
+
+        System.out.println("Number of overall comparisions = "+ comparisions);
     }
 }
 
