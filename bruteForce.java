@@ -33,24 +33,32 @@ public class bruteForce {
         int n = dna.length();
         int m = patter.length();
 
-        int comparisions = 0;
-
-        Boolean found = false;
-        for(int i = 0; i < n - m; i++){
-            String substring = dna.substring(i, i+m);
-            //System.out.println(substring);
-            if(substring.equals(patter)){
-                found = true;
-                System.out.println("Pattern found at " + i);
-            }
-            comparisions++;
+        //number of comparisons made
+int comparisons = 0;
+//boolean to print a specialized string in case there’s no match
+    Boolean found = false;
+//we go through the window to check for every possible match
+//n is the length of the text, m is the length of the pattern
+    for(int i = 0; i < n - m; i++){
+//we move letter by letter and make a substring the length of m
+        String substring = dna.substring(i, i+m);
+ 
+   //comparing the substring and the pattern 	
+if(substring.equals(patter)){
+            found = true;
+    //print where the match is found
+            System.out.println("Pattern found at " + i);
         }
+    //add to the number of comparisons by 1
+        comparisons++;
+    }
  
 
         if(!found)
             System.out.println("No occurrence found");
 
-        System.out.println("Number of overall comparisions = "+ comparisions);
+        else
+        System.out.println("Number of overall comparisons  = "+ comparisons );
     }
 }
 
