@@ -24,7 +24,7 @@ public class bruteForce {
         System.out.print("Enter the DNA sequence: ");
         String dna=input.next(); 
         System.out.print("\n");
-        System.out.print("Enter the patter you are searching for: ");
+        System.out.print("Enter the pattern you are searching for: ");
         String patter = input.next();
         input.close();
         
@@ -39,12 +39,12 @@ int comparisons = 0;
     Boolean found = false;
 //we go through the window to check for every possible match
 //n is the length of the text, m is the length of the pattern
-    for(int i = 0; i < n - m; i++){
+    for(int i = 0; i <= n - m; i++){
 //we move letter by letter and make a substring the length of m
         String substring = dna.substring(i, i+m);
  
    //comparing the substring and the pattern 	
-if(substring.equals(patter)){
+    if(substring.equals(patter)){
             found = true;
     //print where the match is found
             System.out.println("Pattern found at " + i);
@@ -55,7 +55,7 @@ if(substring.equals(patter)){
  
 
         if(!found)
-            System.out.println("No occurrence found");
+            System.out.println("No occurrence found. And the number of comparisons was " + comparisons);
 
         else
         System.out.println("Number of overall comparisons  = "+ comparisons );
