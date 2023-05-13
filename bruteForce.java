@@ -22,10 +22,10 @@ public class bruteForce {
 
         //Getting Input
         System.out.print("Enter the DNA sequence: ");
-        String dna=input.next(); 
+        String dna=input.nextLine(); 
         System.out.print("\n");
         System.out.print("Enter the pattern you are searching for: ");
-        String patter = input.next();
+        String patter = input.nextLine();
         input.close();
         
 
